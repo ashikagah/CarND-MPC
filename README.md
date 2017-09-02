@@ -1,6 +1,6 @@
 # Model Predictive Control Project
 
-#### Here I will consider the [rubric](https://review.udacity.com/#!/rubrics/896/view) points individually and describe how I addressed each point in my implementation.
+Here I will consider the [rubric](https://review.udacity.com/#!/rubrics/896/view) points individually and describe how I addressed each point in my implementation.
 
 ## Compilation
 ### 1. Your code should compile.
