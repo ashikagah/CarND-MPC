@@ -1,9 +1,9 @@
-## Model Predictive Control Project
+# Model Predictive Control Project
 
-### Here I will consider the [rubric](https://review.udacity.com/#!/rubrics/896/view) points individually and describe how I addressed each point in my implementation.
+## Here I will consider the [rubric](https://review.udacity.com/#!/rubrics/896/view) points individually and describe how I addressed each point in my implementation.
 
-### Compilation
-#### 1. Your code should compile.
+## Compilation
+### 1. Your code should compile.
 _Meets Specifications: Code must compile without errors with cmake and make._
 
 Yes, it does compile on my MacBookAir with MacOS Sierra (10.12.6).
