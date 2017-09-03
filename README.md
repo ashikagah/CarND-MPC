@@ -14,21 +14,19 @@ _Meets Specifications: Student describes their model in detail. This includes th
 
 The model is a kinematic bicycle model as described below.
 ```
-// x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
-// y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
-// psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
-// v_[t+1] = v[t] + a[t] * dt
-// cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
-// epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * dt
+x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
+y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
+psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
+v_[t+1] = v[t] + a[t] * dt
+cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
+epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * dt
 ```
 _x_ and _y_ denote the position vector of the car, _psi_ is the heading direction, _v_ is the velocity, _cte_ is the cross-track error and _epsi_ is the orientation error. _Lf_ is the distance between the center of mass of the vehicle and the front wheels and affects the maneuverability. The vehicle model can be found in the class _FG_eval_. The limitations of the kinematic bicycle model as opposed to a 9 degrees of freedom model are described [here](http://ieeexplore.ieee.org/document/7995816/). 
 
 ### 2. Timestep Length and Elapsed Duration (N & dt).
 _Meets Specifications: Student discusses the reasoning behind the chosen N (timestep length) and dt (elapsed duration between timesteps) values. Additionally the student details the previous values tried._
 
-The time _N dt_ defines the prediction horizon. Short prediction horizons lead to more responsive control, but are less accurate and can suffer from fluctuations. Long prediction horizons lead to smoother controls. For a given prediction horizon, a shorter time step _dt_ leads to more accurate control but also require a larger MPC problem to be solved, thus increasing the latency. 
-
-Here I chose values of _N_ and _dt_ such that drives the car smoothly around the track for velocity between approximately 25 mph and 70 mph (_N=12_, _dt=0.05_).
+The time _N dt_ defines the prediction horizon. Short prediction horizons lead to more responsive control, but are less accurate and can suffer from fluctuations. Long prediction horizons lead to smoother controls. For a given prediction horizon, a shorter time step _dt_ leads to more accurate control but also require a larger MPC problem to be solved, thus increasing the latency. I chose the values of _N_ and _dt_ such that drives the car smoothly around the track for velocity between approximately 25 mph and 70 mph (_N=12_, _dt=0.05_).
 
 ### 3. Polynomial Fitting and MPC Preprocessing.
 _Meets Specifications: A polynomial is fitted to waypoints. If the student preprocesses waypoints, the vehicle state, and/or actuators prior to the MPC procedure it is described._
@@ -47,10 +45,8 @@ state << 0, 0, 0, v, cte, epsi;
 _Meets Specifications: The student implements Model Predictive Control that handles a 100 millisecond latency. Student provides details on how they deal with latency._
 
 I deal with the latency problem from the current position and time onwards. I constrain the control to the values of the previous iteration for the latency duration. Computation of optimal trajectory begins after the latency period. The values fed to the simulator are considered as the first control parameters of the optimal trajectory:
-```
-// compute the optimal trajectory          
+```        
 Solution sol = mpc.Solve(state, coeffs);
-
 double steer_value = sol.Delta.at(latency_ind);
 double throttle_value= sol.A.at(latency_ind);
 ```
